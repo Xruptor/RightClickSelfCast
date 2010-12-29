@@ -21,9 +21,6 @@ f:SetScript("OnEvent", function(self, event, ...) self[event](self, ...) end)
 
 function f:PLAYER_LOGIN()
 
-	self:UnregisterEvent("PLAYER_LOGIN")
-	self.PLAYER_LOGIN = nil
-	
 	--this is for the mod ExtraBar (Author: Cowmonster)
 	--http://www.wowinterface.com/downloads/info14492-ExtraBar.html
 	for id=1, 12 do
@@ -47,6 +44,9 @@ function f:PLAYER_LOGIN()
 			end
 		end
 	end
+
+	self:UnregisterEvent("PLAYER_LOGIN")
+	self.PLAYER_LOGIN = nil
 
 end
 
