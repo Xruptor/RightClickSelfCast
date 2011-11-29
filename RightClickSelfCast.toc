@@ -1,7 +1,7 @@
-## Interface: 40200
+## Interface: 40300
 ## Title: RightClickSelfCast
 ## Author: Xruptor
-## Version:  1.8
+## Version:  1.9
 ## Notes: Makes all the Blizzard actionbars always self-cast on right-click (regardless of current target)
 
 RightClickSelfCast.lua
