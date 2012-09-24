@@ -6,8 +6,8 @@ local bars = {
 "MultiBarBottomRight",
 "MultiBarRight",
 "MultiBarLeft",
-"BonusActionBarFrame",
-"ShapeshiftBarFrame",
+--"BonusActionBarFrame",
+--"ShapeshiftBarFrame",
 "PossessBarFrame",
 }
 
@@ -31,7 +31,9 @@ function f:PLAYER_LOGIN()
 	-- Blizzard bars
 	for i, v in ipairs(bars) do
 		local bar = _G[v]
-		bar:SetAttribute("unit2", "player")
+		if bar ~= nil then
+			bar:SetAttribute("unit2", "player")
+		end
 	end
 	
 	-- this is for the mod ExtraBar (Author: Cowmonster)
