@@ -38,36 +38,53 @@ function f:PLAYER_LOGIN()
 	
 	-- this is for the mod ExtraBar (Author: Cowmonster)
 	-- http://www.wowinterface.com/downloads/info14492-ExtraBar.html
-	for id=1, 12 do
-		local button = _G["ExtraBarButton"..id]
-		if button ~= nil then
-			button:SetAttribute("unit2", "player")
+	if IsAddOnLoaded('ExtraBar') then
+		for id=1, 12 do
+			local button = _G["ExtraBarButton"..id]
+			if button ~= nil then
+				button:SetAttribute("unit2", "player")
+			end
 		end
 	end
 
 	-- this is for the mod ExtraBars (Author: Alternator)
 	-- http://www.wowinterface.com/downloads/info13335-ExtraBars.html
-	for id=1, 4 do
-		local frame = _G["ExtraBar"..id]
-		if frame ~= nil then
-			frame:SetAttribute("unit2", "player")
-			for bid=1, 12 do
-				local button = _G["ExtraBar"..id.."Button"..bid]
-				if button ~= nil then
-					button:SetAttribute("unit2", "player")
+	if IsAddOnLoaded('Extra Bars') then
+		for id=1, 4 do
+			local frame = _G["ExtraBar"..id]
+			if frame ~= nil then
+				frame:SetAttribute("unit2", "player")
+				for bid=1, 12 do
+					local button = _G["ExtraBar"..id.."Button"..bid]
+					if button ~= nil then
+						button:SetAttribute("unit2", "player")
+					end
 				end
 			end
 		end
 	end
 	
-	-- ElvUI 3.05+ (Author: Elv22, TukUI fork)
-	-- http://www.wowinterface.com/downloads/info17749-ElvUI.html
-	local barID = 1
-	while _G["ElvUI_Bar"..barID] do
-		for	_,button in next,_G["ElvUI_Bar"..barID].buttons,nil do
-			button:SetAttribute("unit2", "player")
+	-- ElvUI (Author: Elv22, TukUI fork)
+	-- https://www.tukui.org/about.php?ui=elvui
+	if IsAddOnLoaded('ElvUI') then
+		local barID = 1
+		while _G["ElvUI_Bar"..barID] do
+			for	_,button in next,_G["ElvUI_Bar"..barID].buttons,nil do
+				button:SetAttribute("unit2", "player")
+			end
+			barID = barID+1
 		end
-		barID = barID+1
+	end
+	
+	-- Tukui (Author: Elv22, TukUI fork)
+	-- https://www.tukui.org
+	if IsAddOnLoaded('Tukui') then
+		for id=1, 12 do
+			local button = _G["ActionButton"..id]
+			if button ~= nil then
+				button:SetAttribute("unit2", "player")
+			end
+		end
 	end
 	
 	self:UnregisterEvent("PLAYER_LOGIN")
