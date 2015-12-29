@@ -66,26 +66,25 @@ function f:PLAYER_LOGIN()
 	
 	-- ElvUI (Author: Elv22, TukUI fork)
 	-- https://www.tukui.org/about.php?ui=elvui
-	if IsAddOnLoaded('ElvUI') then
-		local barID = 1
-		while _G["ElvUI_Bar"..barID] do
-			for	_,button in next,_G["ElvUI_Bar"..barID].buttons,nil do
-				button:SetAttribute("unit2", "player")
-			end
-			barID = barID+1
+	-- Since there are so many different forks/modifications of ElvUI out there.  Just do it without using IsAddOnLoaded()
+	local barID = 1
+	while _G["ElvUI_Bar"..barID] do
+		for	_,button in next,_G["ElvUI_Bar"..barID].buttons,nil do
+			button:SetAttribute("unit2", "player")
 		end
+		barID = barID+1
 	end
 	
 	-- Tukui (Author: Elv22, TukUI fork)
 	-- https://www.tukui.org
-	if IsAddOnLoaded('Tukui') then
-		for id=1, 12 do
-			local button = _G["ActionButton"..id]
-			if button ~= nil then
-				button:SetAttribute("unit2", "player")
-			end
+	-- Since there are so many different forks/modifications of Tukui out there.  Just do it without using IsAddOnLoaded()
+	for id=1, 12 do
+		local button = _G["ActionButton"..id]
+		if button ~= nil then
+			button:SetAttribute("unit2", "player")
 		end
 	end
+
 	
 	self:UnregisterEvent("PLAYER_LOGIN")
 	self.PLAYER_LOGIN = nil
