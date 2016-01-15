@@ -36,6 +36,27 @@ function f:PLAYER_LOGIN()
 		end
 	end
 	
+	-- ElvUI (Author: Elv22, TukUI fork)
+	-- https://www.tukui.org/about.php?ui=elvui
+	-- Since there are so many different forks/modifications of ElvUI out there.  Just do it without using IsAddOnLoaded()
+	local barID = 1
+	while _G["ElvUI_Bar"..barID] do
+		for	_,button in next,_G["ElvUI_Bar"..barID].buttons,nil do
+			button:SetAttribute("unit2", "player")
+		end
+		barID = barID+1
+	end
+	
+	-- Tukui (Author: Elv22, TukUI fork)
+	-- https://www.tukui.org
+	-- Since there are so many different forks/modifications of Tukui out there.  Just do it without using IsAddOnLoaded()
+	for id=1, 12 do
+		local button = _G["ActionButton"..id]
+		if button ~= nil then
+			button:SetAttribute("unit2", "player")
+		end
+	end
+	
 	-- this is for the mod ExtraBar (Author: Cowmonster)
 	-- http://www.wowinterface.com/downloads/info14492-ExtraBar.html
 	if IsAddOnLoaded('ExtraBar') then
@@ -63,28 +84,6 @@ function f:PLAYER_LOGIN()
 			end
 		end
 	end
-	
-	-- ElvUI (Author: Elv22, TukUI fork)
-	-- https://www.tukui.org/about.php?ui=elvui
-	-- Since there are so many different forks/modifications of ElvUI out there.  Just do it without using IsAddOnLoaded()
-	local barID = 1
-	while _G["ElvUI_Bar"..barID] do
-		for	_,button in next,_G["ElvUI_Bar"..barID].buttons,nil do
-			button:SetAttribute("unit2", "player")
-		end
-		barID = barID+1
-	end
-	
-	-- Tukui (Author: Elv22, TukUI fork)
-	-- https://www.tukui.org
-	-- Since there are so many different forks/modifications of Tukui out there.  Just do it without using IsAddOnLoaded()
-	for id=1, 12 do
-		local button = _G["ActionButton"..id]
-		if button ~= nil then
-			button:SetAttribute("unit2", "player")
-		end
-	end
-
 	
 	self:UnregisterEvent("PLAYER_LOGIN")
 	self.PLAYER_LOGIN = nil
