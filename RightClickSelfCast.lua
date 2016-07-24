@@ -14,6 +14,11 @@ local bars = {
 local f = CreateFrame("frame","RightClickSelfCast",UIParent)
 f:SetScript("OnEvent", function(self, event, ...) self[event](self, ...) end)
 
+local debugf = tekDebug and tekDebug:GetFrame("RightClickSelfCast")
+local function Debug(...)
+    if debugf then debugf:AddMessage(string.join(", ", tostringall(...))) end
+end
+
 function f:PLAYER_REGEN_ENABLED()
 	self:PLAYER_LOGIN()
 	self:UnregisterEvent("PLAYER_REGEN_ENABLED")
