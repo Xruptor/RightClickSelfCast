@@ -1,5 +1,13 @@
 --This mod makes every actionbutton of the blizzard actionbars right-click to be self-casting regardless of target.
 
+local ADDON_NAME, addon = ...
+if not _G[ADDON_NAME] then
+	_G[ADDON_NAME] = CreateFrame("Frame", ADDON_NAME, UIParent)
+end
+addon = _G[ADDON_NAME]
+
+addon:SetScript("OnEvent", function(self, event, ...) if self[event] then return self[event](self, event, ...) end end)
+
 local bars = {
 "MainMenuBarArtFrame",
 "MultiBarBottomLeft",
@@ -11,21 +19,18 @@ local bars = {
 "PossessBarFrame",
 }
 
-local f = CreateFrame("frame","RightClickSelfCast",UIParent)
-f:SetScript("OnEvent", function(self, event, ...) self[event](self, ...) end)
-
-local debugf = tekDebug and tekDebug:GetFrame("RightClickSelfCast")
+local debugf = tekDebug and tekDebug:GetFrame(ADDON_NAME)
 local function Debug(...)
     if debugf then debugf:AddMessage(string.join(", ", tostringall(...))) end
 end
 
-function f:PLAYER_REGEN_ENABLED()
+function addon:PLAYER_REGEN_ENABLED()
 	self:PLAYER_LOGIN()
 	self:UnregisterEvent("PLAYER_REGEN_ENABLED")
 	self.PLAYER_REGEN_ENABLED = nil
 end
 
-function f:PLAYER_LOGIN()
+function addon:PLAYER_LOGIN()
 
 	-- if we load/reload in combat don't try to set secure attributes or we get action_blocked errors
 	if InCombatLockdown() or UnitAffectingCombat("player") then
@@ -90,9 +95,12 @@ function f:PLAYER_LOGIN()
 		end
 	end
 	
+	local ver = GetAddOnMetadata(ADDON_NAME,"Version") or '1.0'
+	DEFAULT_CHAT_FRAME:AddMessage(string.format("|cFF99CC33%s|r [v|cFF20ff20%s|r] loaded", ADDON_NAME, ver or "1.0"))
+	
 	self:UnregisterEvent("PLAYER_LOGIN")
 	self.PLAYER_LOGIN = nil
 
 end
 
-if IsLoggedIn() then f:PLAYER_LOGIN() else f:RegisterEvent("PLAYER_LOGIN") end
+if IsLoggedIn() then addon:PLAYER_LOGIN() else addon:RegisterEvent("PLAYER_LOGIN") end
