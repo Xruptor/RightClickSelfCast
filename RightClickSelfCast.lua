@@ -6,7 +6,27 @@ if not _G[ADDON_NAME] then
 end
 addon = _G[ADDON_NAME]
 
-addon:SetScript("OnEvent", function(self, event, ...) if self[event] then return self[event](self, event, ...) end end)
+addon:RegisterEvent("ADDON_LOADED")
+addon:SetScript("OnEvent", function(self, event, ...)
+	if event == "ADDON_LOADED" or event == "PLAYER_LOGIN" then
+		if event == "ADDON_LOADED" then
+			local arg1 = ...
+			if arg1 and arg1 == ADDON_NAME then
+				self:UnregisterEvent("ADDON_LOADED")
+				self:RegisterEvent("PLAYER_LOGIN")
+			end
+			return
+		end
+		if IsLoggedIn() then
+			self:EnableAddon(event, ...)
+			self:UnregisterEvent("PLAYER_LOGIN")
+		end
+		return
+	end
+	if self[event] then
+		return self[event](self, event, ...)
+	end
+end)
 
 local bars = {
 "MainMenuBarArtFrame",
@@ -25,12 +45,12 @@ local function Debug(...)
 end
 
 function addon:PLAYER_REGEN_ENABLED()
-	self:PLAYER_LOGIN()
+	self:EnableAddon()
 	self:UnregisterEvent("PLAYER_REGEN_ENABLED")
 	self.PLAYER_REGEN_ENABLED = nil
 end
 
-function addon:PLAYER_LOGIN()
+function addon:EnableAddon()
 
 	-- if we load/reload in combat don't try to set secure attributes or we get action_blocked errors
 	if InCombatLockdown() or UnitAffectingCombat("player") then
@@ -97,10 +117,4 @@ function addon:PLAYER_LOGIN()
 	
 	local ver = GetAddOnMetadata(ADDON_NAME,"Version") or '1.0'
 	DEFAULT_CHAT_FRAME:AddMessage(string.format("|cFF99CC33%s|r [v|cFF20ff20%s|r] loaded", ADDON_NAME, ver or "1.0"))
-	
-	self:UnregisterEvent("PLAYER_LOGIN")
-	self.PLAYER_LOGIN = nil
-
 end
-
-if IsLoggedIn() then addon:PLAYER_LOGIN() else addon:RegisterEvent("PLAYER_LOGIN") end
