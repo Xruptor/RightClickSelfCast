@@ -87,34 +87,6 @@ function addon:EnableAddon()
 		end
 	end
 	
-	-- this is for the mod ExtraBar (Author: Cowmonster)
-	-- http://www.wowinterface.com/downloads/info14492-ExtraBar.html
-	if IsAddOnLoaded('ExtraBar') then
-		for id=1, 12 do
-			local button = _G["ExtraBarButton"..id]
-			if button ~= nil then
-				button:SetAttribute("unit2", "player")
-			end
-		end
-	end
-
-	-- this is for the mod ExtraBars (Author: Alternator)
-	-- http://www.wowinterface.com/downloads/info13335-ExtraBars.html
-	if IsAddOnLoaded('Extra Bars') then
-		for id=1, 4 do
-			local frame = _G["ExtraBar"..id]
-			if frame ~= nil then
-				frame:SetAttribute("unit2", "player")
-				for bid=1, 12 do
-					local button = _G["ExtraBar"..id.."Button"..bid]
-					if button ~= nil then
-						button:SetAttribute("unit2", "player")
-					end
-				end
-			end
-		end
-	end
-	
 	local ver = GetAddOnMetadata(ADDON_NAME,"Version") or '1.0'
 	DEFAULT_CHAT_FRAME:AddMessage(string.format("|cFF99CC33%s|r [v|cFF20ff20%s|r] loaded", ADDON_NAME, ver or "1.0"))
 end
