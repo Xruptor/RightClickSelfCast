@@ -1,10 +1,10 @@
-## Interface: 90100
-## Interface-Retail: 90100
-## Interface-Classic: 11307
-## Interface-BCC: 20502
+## Interface: 100000
+## Interface-Retail: 100000
+## Interface-Classic: 11403
+## Interface-Wrath: 30400
 ## Title: RightClickSelfCast
 ## Author: Xruptor
-## Version:  4.0
+## Version:  4.1
 ## X-Curse-Project-ID: 22070
 ## X-WoWI-ID: 15049
 ## Notes: Makes all the Blizzard actionbars always self-cast on right-click (regardless of current target)
