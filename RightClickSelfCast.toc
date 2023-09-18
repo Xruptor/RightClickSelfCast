@@ -1,10 +1,11 @@
-## Interface: 100100
-## Interface-Retail: 100100
-## Interface-Classic: 11403
-## Interface-Wrath: 30401
+## Interface: 100107
+## Interface-Retail: 100107
+## Interface-Classic: 11404
+## Interface-Wrath: 30402
 ## Title: RightClickSelfCast
 ## Author: Xruptor
-## Version:  4.7
+## Version:  4.8
+## IconTexture: 450908
 ## X-Curse-Project-ID: 22070
 ## X-WoWI-ID: 15049
 ## X-Wago-ID: nQN5YENB
