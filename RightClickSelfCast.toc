@@ -5,7 +5,7 @@
 ## Interface-Cata: 40400
 ## Title: RightClickSelfCast
 ## Author: Xruptor
-## Version:  4.9
+## Version:  5.0
 ## IconTexture: 450908
 ## X-Curse-Project-ID: 22070
 ## X-WoWI-ID: 15049
