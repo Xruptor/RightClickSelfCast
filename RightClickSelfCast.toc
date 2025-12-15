@@ -1,7 +1,7 @@
-## Interface: 110207, 50502, 40402, 30405, 20504, 11508
+## Interface: 110207, 50503, 40402, 38000, 30405, 20504, 11508
 ## Title: RightClickSelfCast
 ## Author: Xruptor
-## Version:  5.5
+## Version:  5.6
 ## IconTexture: 450908
 ## X-Curse-Project-ID: 22070
 ## X-WoWI-ID: 15049
