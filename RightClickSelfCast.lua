@@ -58,10 +58,34 @@ local function ApplyBlizzardBarFallback()
     return true
 end
 
+local fallbackApplied = false
+local lastFallbackAttempt = 0
+local fallbackThrottleSeconds = 1.0
+
 local function EnsureBlizzardFallback(self)
+    if fallbackApplied then
+        return
+    end
+    local now = GetTime and GetTime() or 0
+    if now > 0 and (now - lastFallbackAttempt) < fallbackThrottleSeconds then
+        return
+    end
+    lastFallbackAttempt = now
     if not ApplyBlizzardBarFallback() then
         self:RegisterEvent("PLAYER_REGEN_ENABLED")
+        return
     end
+    fallbackApplied = true
+    self:UnregisterEvent("ACTIONBAR_SLOT_CHANGED")
+    self:UnregisterEvent("ACTIONBAR_PAGE_CHANGED")
+    self:UnregisterEvent("ACTIONBAR_UPDATE_STATE")
+    self:UnregisterEvent("UPDATE_MULTI_ACTIONBAR")
+    self:UnregisterEvent("UPDATE_BONUS_ACTIONBAR")
+    self:UnregisterEvent("UPDATE_OVERRIDE_ACTIONBAR")
+    self:UnregisterEvent("UPDATE_VEHICLE_ACTIONBAR")
+    self:UnregisterEvent("UPDATE_SHAPESHIFT_BAR")
+    self:UnregisterEvent("UPDATE_POSSESS_BAR")
+    self:UnregisterEvent("UPDATE_EXTRA_ACTIONBAR")
 end
 
 local function ApplySelfCast(button)
@@ -97,7 +121,8 @@ addon:SetScript("OnEvent", function(self, event)
         return
     end
     if event == "PLAYER_REGEN_ENABLED" then
-        if ApplyBlizzardBarFallback() then
+        EnsureBlizzardFallback(self)
+        if fallbackApplied then
             self:UnregisterEvent("PLAYER_REGEN_ENABLED")
         end
         return
