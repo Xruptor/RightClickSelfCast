@@ -12,17 +12,31 @@ if not _G[ADDON_NAME] then
 end
 addon = _G[ADDON_NAME]
 
-addon:RegisterEvent("PLAYER_LOGIN")
-addon:RegisterEvent("ACTIONBAR_SLOT_CHANGED")
-addon:RegisterEvent("ACTIONBAR_PAGE_CHANGED")
-addon:RegisterEvent("ACTIONBAR_UPDATE_STATE")
-addon:RegisterEvent("UPDATE_MULTI_ACTIONBAR")
-addon:RegisterEvent("UPDATE_BONUS_ACTIONBAR")
-addon:RegisterEvent("UPDATE_OVERRIDE_ACTIONBAR")
-addon:RegisterEvent("UPDATE_VEHICLE_ACTIONBAR")
-addon:RegisterEvent("UPDATE_SHAPESHIFT_BAR")
-addon:RegisterEvent("UPDATE_POSSESS_BAR")
-addon:RegisterEvent("UPDATE_EXTRA_ACTIONBAR")
+local function SafeRegisterEvent(frame, event)
+    pcall(frame.RegisterEvent, frame, event)
+end
+
+local function SafeUnregisterEvent(frame, event)
+    pcall(frame.UnregisterEvent, frame, event)
+end
+
+local actionbarEvents = {
+    "ACTIONBAR_SLOT_CHANGED",
+    "ACTIONBAR_PAGE_CHANGED",
+    "ACTIONBAR_UPDATE_STATE",
+    "UPDATE_MULTI_ACTIONBAR",
+    "UPDATE_BONUS_ACTIONBAR",
+    "UPDATE_OVERRIDE_ACTIONBAR",
+    "UPDATE_VEHICLE_ACTIONBAR",
+    "UPDATE_SHAPESHIFT_BAR",
+    "UPDATE_POSSESS_BAR",
+    "UPDATE_EXTRA_ACTIONBAR",
+}
+
+SafeRegisterEvent(addon, "PLAYER_LOGIN")
+for _, event in ipairs(actionbarEvents) do
+    SafeRegisterEvent(addon, event)
+end
 
 -------------------------------------------------------
 -- Core logic
@@ -76,16 +90,9 @@ local function EnsureBlizzardFallback(self)
         return
     end
     fallbackApplied = true
-    self:UnregisterEvent("ACTIONBAR_SLOT_CHANGED")
-    self:UnregisterEvent("ACTIONBAR_PAGE_CHANGED")
-    self:UnregisterEvent("ACTIONBAR_UPDATE_STATE")
-    self:UnregisterEvent("UPDATE_MULTI_ACTIONBAR")
-    self:UnregisterEvent("UPDATE_BONUS_ACTIONBAR")
-    self:UnregisterEvent("UPDATE_OVERRIDE_ACTIONBAR")
-    self:UnregisterEvent("UPDATE_VEHICLE_ACTIONBAR")
-    self:UnregisterEvent("UPDATE_SHAPESHIFT_BAR")
-    self:UnregisterEvent("UPDATE_POSSESS_BAR")
-    self:UnregisterEvent("UPDATE_EXTRA_ACTIONBAR")
+    for _, event in ipairs(actionbarEvents) do
+        SafeUnregisterEvent(self, event)
+    end
 end
 
 local function ApplySelfCast(button)
